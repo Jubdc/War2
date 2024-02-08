@@ -1,4 +1,62 @@
-create table item (
+USE CINEWARS;
+
+CREATE TABLE user (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  country VARCHAR(255) NULL,
+  hashedPassword VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT NOW(),
+  favoriteMovies VARCHAR(255) NULL,
+  favoriteDirectors VARCHAR(255) NULL,
+  combo INT NOT NULL DEFAULT 0,
+  score INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE awards (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  lastname VARCHAR(50) NOT NULL,
+  image VARCHAR(50) NOT NULL,
+  price INTEGER NOT NULL
+);
+
+CREATE TABLE film (
+  id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(500) NOT NULL,
+  director VARCHAR(50) NOT NULL,
+  release_date YEAR NOT NULL,
+  image VARCHAR(7000) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE directors (
   id int unsigned primary key auto_increment not null,
-  title varchar(255) not null
+  firstname VARCHAR(50) NOT NULL,
+  lastname VARCHAR(50) NOT NULL,
+  birthDate DATE NOT NULL,
+  age INTEGER NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  filmNumber VARCHAR(255) NOT NULL,
+  filmList VARCHAR(255) NOT NULL,
+  image VARCHAR(7000) NOT NULL
+);
+
+CREATE TABLE questions (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  question VARCHAR(255) NOT NULL,
+  image VARCHAR(7000) NULL,
+  category VARCHAR(255) NOT NULL,
+  country VARCHAR(255) NOT NULL,
+  years INTEGER NOT NULL,
+  difficulty INTEGER NULL
+);
+
+CREATE TABLE answers (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  question_id INT UNSIGNED NOT NULL,
+  answer_text VARCHAR(255) NOT NULL,
+  is_correct BOOLEAN NOT NULL,
+  custom_message VARCHAR(255) NOT NULL,
+  FOREIGN KEY (question_id) REFERENCES questions(id)
 );

@@ -2,22 +2,23 @@ const express = require("express");
 
 const router = express.Router();
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
+const userRouter = require("./routers/userRouter");
+const authRouter = require("./routers/authRouter");
+const filmRouter = require("./routers/filmRouter");
+const directorsRouter = require("./routers/directorsRouter");
+const awardsRouter = require("./routers/awardsRouter");
+const questionRouter = require("./routers/questionRouter");
+const answersRouter = require("./routers/answersRouter");
+// const chatBotRouter = require("./routers/chatBotRouter"); // Assurez-vous que le chemin est correct
 
-// Import itemControllers module for handling item-related operations
-const itemControllers = require("./controllers/itemControllers");
+router.use("/user", userRouter);
+router.use("/login", authRouter);
+router.use("/film", filmRouter);
+router.use("/directors", directorsRouter);
+router.use("/awards", awardsRouter);
+router.use("/questions", questionRouter);
+router.use("/answers", answersRouter);
 
-// Route to get a list of items
-router.get("/items", itemControllers.browse);
-
-// Route to get a specific item by ID
-router.get("/items/:id", itemControllers.read);
-
-// Route to add a new item
-router.post("/items", itemControllers.add);
-
-/* ************************************************************************* */
+// router.use("/chatbot", chatBotRouter);
 
 module.exports = router;

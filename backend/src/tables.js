@@ -5,9 +5,24 @@
 // Import the manager modules responsible for handling data operations on the tables
 const ItemManager = require("./models/ItemManager");
 
+const userManager = require("./models/UserManager");
+const FilmManager = require("./models/FilmManager");
+const directorsManager = require("./models/DirectorsManager");
+const QuestionManager = require("./models/QuestionManager");
+const AnswersManager = require("./models/AnswersManager");
+// const ChatbotManager = require("./models/ChatBotManager");
+// const RandomQuestionsManager = require("./models/RandomQuestionsManager");
+
 const managers = [
   ItemManager,
   // Add other managers here
+  userManager,
+  FilmManager,
+  directorsManager,
+  QuestionManager,
+  AnswersManager,
+  // ChatbotManager,
+  // RandomQuestionsManager,
 ];
 
 // Create an empty object to hold data managers for different tables
