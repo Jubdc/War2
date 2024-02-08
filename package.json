@@ -1,6 +1,7 @@
 {
   "name": "template-fullstack",
   "version": "4.2.0",
+  "type": "module",
   "description": "project template for the React-Express-MySQL cursus in Wild Code School",
   "homepage": "https://github.com/wildcodeschool/js-template-fullstack#readme",
   "bugs": {
@@ -29,7 +30,22 @@
   "devDependencies": {
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
+    "daisyui": "^4.5.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3"
+  },
+  "dependencies": {
+    "@material-tailwind/react": "^2.1.8",
+    "argon2": "^0.31.2",
+    "axios": "^1.6.5",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "prop-types": "^15.8.1",
+    "react-countdown-circle-timer": "^3.2.1",
+    "react-hook-form": "^7.49.3",
+    "react-scripts": "^3.0.1",
+    "react-toastify": "^10.0.4",
+    "zod": "^3.22.4"
   }
 }
