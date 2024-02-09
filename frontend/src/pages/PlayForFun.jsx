@@ -27,7 +27,8 @@ function QuestionGameForFun({ userId }) {
   const [incorrectAnswersIndices, setIncorrectAnswersIndices] = useState([]);
   const [hiddenAnswersIds, setHiddenAnswersIds] = useState([]);
 
-  const [jokerUsed, setJokerUsed] = useState(false);
+  const [jokerCount, setJokerCount] = useState(1); // Commence avec 1 Joker disponible
+  const [chatbotUsageCount, setChatbotUsageCount] = useState(0); // Nombre d'utilisations du Chatbot
 
   const [isTimerStoppedByBot, setIsTimerStoppedByBot] = useState(false);
 
@@ -65,7 +66,7 @@ function QuestionGameForFun({ userId }) {
       console.log("incorrectAnswersIndices:", incorrectIndices);
     }
     // ...
-  }, [selectedQuestion, answers]);
+  }, [jokerCount, selectedQuestion, answers]);
 
   useEffect(() => {
     // console.log("askedQuestionIds:", askedQuestionIds); Pour voir la sauvegarde des Q dans la console.1/2
@@ -203,6 +204,45 @@ function QuestionGameForFun({ userId }) {
 
       setCorrectAnswers(correctAnswers + 1);
 
+      // Si le streak atteint 5, le joueur gagne un joker
+      if (newStreak === 5 || newStreak === 15) {
+        setJokerCount((prevCount) => prevCount + 1); // Incrémente le compteur de jokers disponibles
+        toast.info(`Félicitations ! Vous avez gagné un nouveau Joker !`, {
+          position: "bottom-center", // Position de l'alerte
+          autoClose: 5000, // Durée d'affichage en millisecondes
+          hideProgressBar: false, // Afficher la barre de progression
+          closeOnClick: true, // Fermer l'alerte lorsqu'elle est cliquée
+          pauseOnHover: true, // Mettre en pause l'affichage de l'alerte lorsqu'elle est survolée
+          draggable: true, // Autoriser le glissement de l'alerte
+          progress: undefined, // Propriété de progression personnalisée
+          // Ajoutez d'autres options personnalisées ici selon vos besoins
+        });
+      }
+
+      // Si le streak atteint 5 ou 10, le joueur gagne une utilisation de Chatbot
+      if (
+        newStreak === 10 ||
+        newStreak === 20 ||
+        newStreak === 30 ||
+        newStreak === 40 ||
+        newStreak === 50
+      ) {
+        setChatbotUsageCount((prevStreak) => prevStreak + 1);
+        toast.info(
+          `Félicitations ! Vous avez gagné une utilisation de Chatbot !`,
+          {
+            position: "bottom-center", // Position de l'alerte
+            autoClose: 5000, // Durée d'affichage en millisecondes
+            hideProgressBar: false, // Afficher la barre de progression
+            closeOnClick: true, // Fermer l'alerte lorsqu'elle est cliquée
+            pauseOnHover: true, // Mettre en pause l'affichage de l'alerte lorsqu'elle est survolée
+            draggable: true, // Autoriser le glissement de l'alerte
+            progress: undefined, // Propriété de progression personnalisée
+            // Ajoutez d'autres options personnalisées ici selon vos besoins
+          }
+        );
+      }
+
       // Affiche un toast spécial pour les streaks ou un toast normal sinon
       if (newStreak === 3 || newStreak === 6) {
         // Toast spécial pour les streaks importants
@@ -249,20 +289,23 @@ function QuestionGameForFun({ userId }) {
   }
 
   const handleJokerUse = () => {
-    console.log("handleJokerUse called");
+    console.log("handleJokerUse called", {
+      jokerCount,
+      incorrectAnswersIndices,
+    });
 
-    // Vérifiez s'il y a suffisamment d'indices incorrects pour rendre invisibles deux réponses
-    if (incorrectAnswersIndices.length >= 2) {
+    if (jokerCount > 0 && incorrectAnswersIndices.length >= 2) {
       // Sélectionnez les deux premiers identifiants des réponses incorrectes
+      console.log("Joker is being used");
       const idsToHide = incorrectAnswersIndices.slice(0, 2);
 
       // Mettez à jour l'état pour cacher ces réponses
       setHiddenAnswersIds(idsToHide);
 
-      // Marquez le joker comme utilisé
-      setJokerUsed(true);
+      // Décrémentez le compteur de Jokers disponibles
+      setJokerCount((prevCount) => prevCount - 1);
     } else {
-      console.log("Pas assez de réponses incorrectes pour utiliser le joker.");
+      console.log("Conditions non remplies pour utiliser le Joker.");
     }
   };
 
@@ -293,6 +336,9 @@ function QuestionGameForFun({ userId }) {
       setIsTimerRunning(true);
       setIsTimerStoppedByBot(false); // Réinitialise lorsque le timer est redémarré
     }, 14000); // Exemple: redémarrer après 10 secondes
+
+    // Réinitialiser correctStreakForChatBot pour permettre une nouvelle utilisation du chatbot
+    setCorrectStreakForChatBot(0);
   };
 
   return (
@@ -313,8 +359,11 @@ function QuestionGameForFun({ userId }) {
           )}
 
           <div>
-            <div>
-              <p>Points: {playerPoints}</p>
+            <div className="flex justify-center items-center border-4 rounded-tl-[200px] rounded-tr-[200px] rounded-br-[200px] rounded-bl-[200px] p-0 m-0   border-blue-500 w-28 z-30 translate-x-52 translate-y-24">
+              <p className="text-white text-lg font-semibold">
+                {" "}
+                {playerPoints}
+              </p>
             </div>
 
             {selectedQuestion ? (
@@ -483,7 +532,8 @@ function QuestionGameForFun({ userId }) {
                     currentQuestionId={
                       selectedQuestion ? selectedQuestion.id : null
                     }
-                    handleBotUse={handleBotUse}
+                    jokerCount={jokerCount}
+                    handleBotUse={handleBotUse} // Passe la fonction de mise à jour du joker
                   />
                 </div>
 
@@ -491,6 +541,7 @@ function QuestionGameForFun({ userId }) {
                   <JokerButton
                     selectedQuestion={selectedQuestion}
                     answers={answers}
+                    jokerCount={jokerCount} // Assurez-vous que cette prop est bien passée
                     onUseJoker={handleJokerUse}
                   />
                 </div>

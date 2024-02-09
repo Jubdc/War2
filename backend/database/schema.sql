@@ -11,6 +11,7 @@ CREATE TABLE user (
   favoriteDirectors VARCHAR(255) NULL,
   combo INT NOT NULL DEFAULT 0,
   score INT NOT NULL DEFAULT 0
+  isAdmin BOOLEAN NOT NULL,
 );
 
 CREATE TABLE awards (

@@ -5,7 +5,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 function TimerComponent({ isPlaying, duration, onComplete }) {
   return (
     <CountdownCircleTimer
-      isPlaying={isPlaying}
+      isPlaying={false}
       duration={duration}
       colors={["#DF2A52", "#DF2A52", "#B30508", "#B30508"]}
       colorsTime={[7, 5, 2, 0]}

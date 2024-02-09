@@ -12,7 +12,7 @@ const {
   add,
   edit,
   addPoints,
-  getScore,
+  getScore, 
 } = require("../controllers/userController");
 
 router.get("/browse", browse); // Supposons que vous vouliez naviguer dans tous les utilisateurs
