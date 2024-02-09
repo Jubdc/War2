@@ -25,6 +25,8 @@ function ChatBot({ currentQuestionId, handleBotUse }) {
 
   // Fonction pour demander une réponse au chatbot
   const askChatbot = async () => {
+    console.log("askChatbot function called");
+    console.log("jokerUsed:", jokerUsed);
     if (!jokerUsed) {
       handleBotUse();
       setShowDialogue(true);
